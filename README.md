@@ -3,7 +3,7 @@
 Soy un estudiante un estudiante de media técnica, interesado por la tecnología y el aprendizaje continuo.
 Sigo aprendiendo programación.
 
-## Sobre mi
+## Sobre mí
 -Me gustan los gatos
 -Me apasiona la tecnologia y sobre todo hacer uso de ella
 -Me gusta cuando me intereso por un tema, y cuando lo profundizo y aprendo me genera gran satisfacción
