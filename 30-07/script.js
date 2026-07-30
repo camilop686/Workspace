@@ -178,7 +178,15 @@ tarjeta.appendChild(formulario);
 app.appendChild(tarjeta);
 
 // ==========================================
-// 3. EVENTO DE ENVÍO Y PROCESAMIENTO
+// 3. CREAR CONTENEDOR PARA MOSTRAR RESULTADOS
+// ==========================================
+const contenedorResultado = document.createElement('div');
+contenedorResultado.style.marginTop = '20px';
+contenedorResultado.style.display = 'none'; // Estará oculto al inicio
+tarjeta.appendChild(contenedorResultado);
+
+// ==========================================
+// 4. EVENTO DE ENVÍO Y PROCESAMIENTO
 // ==========================================
 formulario.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -190,22 +198,42 @@ formulario.addEventListener('submit', (e) => {
 
   const modalidadElegida = formulario.querySelector('input[name="modalidad"]:checked')?.value;
 
-  const datosRecogidos = {
+  const datos = {
     nombre: inputNombre.value,
     correo: inputCorreo.value,
     password: inputPassword.value,
-    edad: inputEdad.value,
-    fechaNacimiento: inputFecha.value,
+    edad: inputEdad.value || 'No especificada',
+    fechaNacimiento: inputFecha.value || 'No especificada',
     experiencia: inputRango.value,
     modalidad: modalidadElegida,
-    lenguajes: lenguajesElegidos,
-    pais: selectPais.value,
-    comentarios: txtComentarios.value,
-    foto: inputFoto.files[0] ? inputFoto.files[0].name : 'Sin archivo',
+    lenguajes: lenguajesElegidos.length > 0 ? lenguajesElegidos.join(', ') : 'Ninguno',
+    pais: selectPais.value || 'No especificado',
+    comentarios: txtComentarios.value || 'Sin comentarios',
+    foto: inputFoto.files[0] ? inputFoto.files[0].name : 'Sin archivo cargado',
     colorFavorito: inputColor.value,
-    terminosAceptados: chkTerminos.checked
+    terminosAceptados: chkTerminos.checked ? 'Sí' : 'No'
   };
 
-  console.log('Objeto completo generado:', datosRecogidos);
-  alert(`¡Formulario enviado con éxito por ${datosRecogidos.nombre}!`);
+  // Renderizar la tarjeta con los resultados directamente en pantalla
+  contenedorResultado.style.display = 'block';
+  contenedorResultado.innerHTML = `
+    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ddd;">
+    <h3 style="color: #27ae60; text-align: center; margin-top: 0;">¡Registro Exitoso!</h3>
+    <p><strong>Datos registrados:</strong></p>
+    <ul style="list-style: none; padding: 0; line-height: 1.8; color: #333;">
+      <li><strong>Nombre:</strong> ${datos.nombre}</li>
+      <li><strong>Correo:</strong> ${datos.correo}</li>
+      <li><strong>Contraseña:</strong> ••••••••</li>
+      <li><strong>Edad:</strong> ${datos.edad}</li>
+      <li><strong>Fecha de nacimiento:</strong> ${datos.fechaNacimiento}</li>
+      <li><strong>Nivel de experiencia:</strong> ${datos.experiencia} / 10</li>
+      <li><strong>Modalidad:</strong> ${datos.modalidad}</li>
+      <li><strong>Lenguajes:</strong> ${datos.lenguajes}</li>
+      <li><strong>País:</strong> ${datos.pais}</li>
+      <li><strong>Foto seleccionada:</strong> ${datos.foto}</li>
+      <li><strong>Color favorito:</strong> <span style="display:inline-block; width:15px; height:15px; background-color:${datos.colorFavorito}; border-radius:3px; vertical-align:middle;"></span> ${datos.colorFavorito}</li>
+      <li><strong>Comentarios:</strong> ${datos.comentarios}</li>
+      <li><strong>Términos aceptados:</strong> ${datos.terminosAceptados}</li>
+    </ul>
+  `;
 });
